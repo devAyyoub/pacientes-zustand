@@ -1,15 +1,16 @@
 import { useForm } from "react-hook-form";
 import Error from "./Error";
+import type { DraftPatient } from "../types";
 
 export default function PatientForm() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<DraftPatient>();
 
-  const registerPatient = () => {
-    console.log("Nuevo paciente");
+  const registerPatient = (data: DraftPatient) => {
+    console.log(data);
   };
 
   return (
@@ -39,7 +40,7 @@ export default function PatientForm() {
               required: "El nombre del paciente es obligatorio",
             })}
           />
-          {errors.name && <Error>{errors.name?.message?.toString()}</Error>}
+          {errors.name && <Error>{errors.name?.message}</Error>}
         </div>
 
         <div className="mb-5">
@@ -56,7 +57,7 @@ export default function PatientForm() {
             })}
           />
           {errors.caretaker && (
-            <Error>{errors.caretaker?.message?.toString()}</Error>
+            <Error>{errors.caretaker?.message}</Error>
           )}
         </div>
 
@@ -77,7 +78,7 @@ export default function PatientForm() {
               },
             })}
           />
-          {errors.email && <Error>{errors.email?.message?.toString()}</Error>}
+          {errors.email && <Error>{errors.email?.message}</Error>}
         </div>
 
         <div className="mb-5">
@@ -92,9 +93,7 @@ export default function PatientForm() {
               required: "La fecha de alta es obligatoria",
             })}
           />
-          {errors.date && (
-            <Error>{errors.date?.message?.toString()}</Error>
-          )}
+          {errors.date && <Error>{errors.date?.message}</Error>}
         </div>
 
         <div className="mb-5">
@@ -106,11 +105,11 @@ export default function PatientForm() {
             className="w-full p-3 border border-gray-100"
             placeholder="Síntomas del paciente"
             {...register("symptoms", {
-                required: "Los sintomas son obligatorios",
-              })}
+              required: "Los sintomas son obligatorios",
+            })}
           />
           {errors.symptoms && (
-            <Error>{errors.symptoms?.message?.toString()}</Error>
+            <Error>{errors.symptoms?.message}</Error>
           )}
         </div>
 

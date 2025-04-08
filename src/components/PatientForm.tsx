@@ -10,28 +10,35 @@ export default function PatientForm() {
     handleSubmit,
     setValue,
     formState: { errors },
-    reset
+    reset,
   } = useForm<DraftPatient>();
 
-  const addPatient = usePatientStore(state => state.addPatient)
-  const activeId = usePatientStore(state => state.activeId)
-  const patients = usePatientStore(state => state.patients)
+  const addPatient = usePatientStore((state) => state.addPatient);
+  const activeId = usePatientStore((state) => state.activeId);
+  const patients = usePatientStore((state) => state.patients);
+  const updatePatient = usePatientStore((state) => state.updatePatient);
 
   useEffect(() => {
-    if(activeId) {
-        const activePatient = patients.filter(patient => patient.id === activeId)[0]
-        setValue('name', activePatient.name)
-        setValue('caretaker', activePatient.caretaker)
-        setValue('date', activePatient.date)
-        setValue('email', activePatient.email)
-        setValue('symptoms', activePatient.symptoms)
+    if (activeId) {
+      const activePatient = patients.filter(
+        (patient) => patient.id === activeId
+      )[0];
+      setValue("name", activePatient.name);
+      setValue("caretaker", activePatient.caretaker);
+      setValue("date", activePatient.date);
+      setValue("email", activePatient.email);
+      setValue("symptoms", activePatient.symptoms);
     }
-  }, [activeId])
+  }, [activeId]);
 
   const registerPatient = (data: DraftPatient) => {
-    addPatient(data)
+    if (activeId) {
+      updatePatient(data);
+    } else {
+      addPatient(data);
+    }
 
-    reset()
+    reset();
   };
 
   return (
@@ -77,9 +84,7 @@ export default function PatientForm() {
               required: "El propietario es obligatorio",
             })}
           />
-          {errors.caretaker && (
-            <Error>{errors.caretaker?.message}</Error>
-          )}
+          {errors.caretaker && <Error>{errors.caretaker?.message}</Error>}
         </div>
 
         <div className="mb-5">
@@ -129,9 +134,7 @@ export default function PatientForm() {
               required: "Los sintomas son obligatorios",
             })}
           />
-          {errors.symptoms && (
-            <Error>{errors.symptoms?.message}</Error>
-          )}
+          {errors.symptoms && <Error>{errors.symptoms?.message}</Error>}
         </div>
 
         <input

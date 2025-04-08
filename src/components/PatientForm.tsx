@@ -48,7 +48,7 @@ export default function PatientForm() {
 
         <div className="mb-5">
           <label htmlFor="caretaker" className="text-sm uppercase font-bold">
-            Propietario
+            Cuidador/a
           </label>
           <input
             id="caretaker"
